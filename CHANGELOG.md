@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## Unreleased
+
+### Added
+
+- GitHub-backed `saisai-plugins` repo Marketplace for direct Codex installation.
+- A complete Chinese installation guide with CLI, desktop, ZIP, verification, update, uninstall, security review, and troubleshooting instructions.
+
+### Changed
+
+- Added a concise Marketplace installation path and explicit post-install verification steps to the README.
+
 ## [0.1.2] - 2026-08-12
 
 ### Added

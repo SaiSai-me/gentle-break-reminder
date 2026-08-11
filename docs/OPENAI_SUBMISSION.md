@@ -15,10 +15,10 @@ This document contains the public listing copy and reviewer test cases for the i
 
 - Plugin name: Gentle Break Reminder
 - Developer identity: tanzengsai
-- Website: https://github.com/847426577/gentle-break-reminder
-- Support: https://github.com/847426577/gentle-break-reminder/issues
-- Privacy policy: https://github.com/847426577/gentle-break-reminder/blob/main/PRIVACY.md
-- Terms of service: https://github.com/847426577/gentle-break-reminder/blob/main/TERMS.md
+- Website: https://github.com/SaiSai-me/gentle-break-reminder
+- Support: https://github.com/SaiSai-me/gentle-break-reminder/issues
+- Privacy policy: https://github.com/SaiSai-me/gentle-break-reminder/blob/main/PRIVACY.md
+- Terms of service: https://github.com/SaiSai-me/gentle-break-reminder/blob/main/TERMS.md
 - Logo: `assets/icon.png` (256×256 PNG)
 
 Short description:

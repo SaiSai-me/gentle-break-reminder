@@ -4,10 +4,10 @@
   "description": "Private, activity-aware break reminders inside Codex conversations, powered by a deterministic local hook.",
   "author": {
     "name": "tanzengsai",
-    "url": "https://github.com/847426577"
+    "url": "https://github.com/SaiSai-me"
   },
-  "homepage": "https://github.com/847426577/gentle-break-reminder",
-  "repository": "https://github.com/847426577/gentle-break-reminder",
+  "homepage": "https://github.com/SaiSai-me/gentle-break-reminder",
+  "repository": "https://github.com/SaiSai-me/gentle-break-reminder",
   "license": "MIT",
   "keywords": [
     "codex",
@@ -24,9 +24,9 @@
     "developerName": "tanzengsai",
     "category": "Productivity",
     "capabilities": [],
-    "websiteURL": "https://github.com/847426577/gentle-break-reminder",
-    "privacyPolicyURL": "https://github.com/847426577/gentle-break-reminder/blob/main/PRIVACY.md",
-    "termsOfServiceURL": "https://github.com/847426577/gentle-break-reminder/blob/main/TERMS.md",
+    "websiteURL": "https://github.com/SaiSai-me/gentle-break-reminder",
+    "privacyPolicyURL": "https://github.com/SaiSai-me/gentle-break-reminder/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/SaiSai-me/gentle-break-reminder/blob/main/TERMS.md",
     "defaultPrompt": [
       "Show my current break reminder settings.",
       "Remind me after 50 minutes of sustained activity.",

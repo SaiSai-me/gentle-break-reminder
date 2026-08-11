@@ -67,4 +67,4 @@ Material changes to this policy will be documented in the repository and release
 
 ## Contact
 
-For privacy questions, use the maintainer contact options on the [GitHub profile](https://github.com/847426577). Do not post sensitive personal information in a public GitHub issue.
+For privacy questions, use the maintainer contact options on the [GitHub profile](https://github.com/SaiSai-me). Do not post sensitive personal information in a public GitHub issue.

@@ -40,4 +40,4 @@ The plugin and these terms may change in future releases. You may stop using the
 
 ## Contact
 
-For support, use [GitHub Issues](https://github.com/847426577/gentle-break-reminder/issues). Do not include sensitive personal information in public issues.
+For support, use [GitHub Issues](https://github.com/SaiSai-me/gentle-break-reminder/issues). Do not include sensitive personal information in public issues.

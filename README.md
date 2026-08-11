@@ -2,7 +2,7 @@
 
 ![Gentle Break Reminder 图标](./assets/icon.png)
 
-[![Version](https://img.shields.io/badge/version-0.1.2-71C2FF)](https://github.com/847426577/gentle-break-reminder/releases/tag/v0.1.2)
+[![Version](https://img.shields.io/badge/version-0.1.2-71C2FF)](https://github.com/SaiSai-me/gentle-break-reminder/releases/tag/v0.1.2)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
 **把休息提醒放进 Agent 对话流里。**
@@ -173,8 +173,8 @@ python3 -m unittest discover -s tests -v
 
 ## 发布与支持
 
-- 最新版本与安装包：[GitHub Releases](https://github.com/847426577/gentle-break-reminder/releases)
-- 问题与功能建议：[GitHub Issues](https://github.com/847426577/gentle-break-reminder/issues)
+- 最新版本与安装包：[GitHub Releases](https://github.com/SaiSai-me/gentle-break-reminder/releases)
+- 问题与功能建议：[GitHub Issues](https://github.com/SaiSai-me/gentle-break-reminder/issues)
 - 安全问题：[安全政策](./SECURITY.md)
 - 参与贡献：[贡献指南](./CONTRIBUTING.md)
 

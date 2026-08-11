@@ -1,0 +1,39 @@
+{
+  "name": "gentle-break-reminder",
+  "version": "0.1.2",
+  "description": "Private, activity-aware break reminders inside Codex conversations, powered by a deterministic local hook.",
+  "author": {
+    "name": "tanzengsai",
+    "url": "https://github.com/847426577"
+  },
+  "homepage": "https://github.com/847426577/gentle-break-reminder",
+  "repository": "https://github.com/847426577/gentle-break-reminder",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "break-reminder",
+    "wellbeing",
+    "productivity",
+    "privacy"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Gentle Break Reminder",
+    "shortDescription": "Activity-aware breaks inside Codex conversations.",
+    "longDescription": "Use a deterministic local UserPromptSubmit hook to detect sustained activity and intense conversation bursts, then deliver low-interruption reminders with customizable content and frequency. The reminder engine uses hashed session identifiers, local timestamps, and counts. It does not inspect, analyze, transmit, or persist prompt text, and it never opens conversation transcripts.",
+    "developerName": "tanzengsai",
+    "category": "Productivity",
+    "capabilities": [],
+    "websiteURL": "https://github.com/847426577/gentle-break-reminder",
+    "privacyPolicyURL": "https://github.com/847426577/gentle-break-reminder/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/847426577/gentle-break-reminder/blob/main/TERMS.md",
+    "defaultPrompt": [
+      "Show my current break reminder settings.",
+      "Remind me after 50 minutes of sustained activity.",
+      "Change my break reminder to a gentle hydration prompt."
+    ],
+    "brandColor": "#71C2FF",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  }
+}

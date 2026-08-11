@@ -1,0 +1,4 @@
+interface:
+  display_name: "Configure Break Reminders"
+  short_description: "Customize private, activity-aware break reminders"
+  default_prompt: "Use $configure-break-reminders to customize my reminder message and frequency."

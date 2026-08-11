@@ -1,0 +1,17 @@
+{
+  "description": "Detect sustained activity and conversation intensity from local prompt-submit events, then emit low-interruption break reminders.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/scripts/codex_hook.py\"",
+            "timeout": 2,
+            "additionalContextLimit": 256
+          }
+        ]
+      }
+    ]
+  }
+}

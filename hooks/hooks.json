@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/scripts/codex_hook.py\"",
+            "command": "/bin/sh -c 'launcher=\"$HOME/Library/Application Support/gentle-break-reminder/hook_launcher.py\"; if [ ! -f \"$launcher\" ]; then launcher=$(find \"$HOME/.codex/plugins/cache\" -path \"*/gentle-break-reminder/*/scripts/hook_launcher.py\" -type f -print -quit 2>/dev/null); fi; [ -n \"$launcher\" ] && [ -f \"$launcher\" ] || exit 0; exec python3 \"$launcher\"'",
             "timeout": 2,
             "additionalContextLimit": 256
           }

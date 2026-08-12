@@ -13,6 +13,14 @@ All notable changes to this project are documented in this file.
 
 - Added a concise Marketplace installation path and explicit post-install verification steps to the README.
 
+## [0.1.3] - 2026-08-12
+
+### Fixed
+
+- Run the prompt-submit Hook through a persistent launcher under Application Support instead of a versioned Codex plugin-cache path.
+- Atomically mirror the runtime Hook and keep using it while Codex refreshes or removes plugin cache directories.
+- Fall back silently during the first-install cache transition instead of surfacing a Python `No such file or directory` error.
+
 ## [0.1.2] - 2026-08-12
 
 ### Added

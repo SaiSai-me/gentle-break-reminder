@@ -64,6 +64,39 @@ Codex 会把完整的 `UserPromptSubmit` 事件 JSON 交给 Hook。适配器会�
 
 插件不是后台计时器。它只在用户再次提交消息时检查规则，因此不会保证在第 45 分钟整点弹出提醒。
 
+## 安装到 Codex
+
+### 推荐：直接从 GitHub Marketplace 安装
+
+不需要先下载 ZIP。打开终端，依次运行：
+
+```bash
+codex plugin marketplace add SaiSai-me/gentle-break-reminder
+codex plugin add gentle-break-reminder@saisai-plugins
+```
+
+然后完全退出并重新打开 ChatGPT/Codex 桌面应用，新建一个 Codex 任务。在输入框键入 `@`，选择 **Gentle Break Reminder**，发送：
+
+```text
+查看我的休息提醒设置
+```
+
+也可以在 Codex CLI 中输入 `/plugins`，切换到 **SaiSai Plugins** 后安装。
+
+> 重要：安装完成后必须新建任务或 CLI 会话。安装前已经打开的旧任务不会自动加载新的技能和 Hook。
+
+### 已经从 GitHub 下载 ZIP
+
+ZIP 不能通过双击直接安装。最简单的方式仍然是执行上面的两条 Marketplace 命令；ZIP 可以用于查看和审计源码。
+
+如果只有桌面应用而没有可用的 `codex` 命令，请下载仓库 `main` 分支的 ZIP，将解压目录作为 Codex 项目打开，重新启动桌面应用，然后在 Plugins → **SaiSai Plugins** 中安装。
+
+完整的分步说明，包括环境检查、ZIP 安装、验证、更新、卸载及故障排查，请阅读：
+
+**[安装与使用指南](./docs/INSTALLATION.md)**
+
+插件需要支持插件 Hooks 的 Codex 环境和可执行的 `python3` 命令。目前不能在 Codex IDE 扩展中浏览或安装插件。
+
 ## 快速使用
 
 安装并启用插件后，新建一个 Codex 任务。默认提醒已开启，无需额外配置。
@@ -155,10 +188,11 @@ Gentle Break Reminder 只能根据消息事件的时间和次数估算交互节�
 ## 兼容性
 
 - 需要支持插件 Hook 的 Codex 环境；
-- 本地运行需要 Python 3；
+- 本地运行需要可通过 `python3` 命令执行的 Python 3；
 - 支持 Codex 内系统消息；
 - 支持 macOS 桌面通知；
 - Windows 和 Linux 可继续使用 Codex 内系统消息；
+- 插件目前不能通过 Codex IDE 扩展安装；请使用 ChatGPT/Codex 桌面应用或 Codex CLI；
 - 不需要外部账号、云服务或 API Key。
 
 ## 开发与验证
@@ -173,6 +207,7 @@ python3 -m unittest discover -s tests -v
 
 ## 发布与支持
 
+- 安装、更新和卸载：[安装与使用指南](./docs/INSTALLATION.md)
 - 最新版本与安装包：[GitHub Releases](https://github.com/SaiSai-me/gentle-break-reminder/releases)
 - 问题与功能建议：[GitHub Issues](https://github.com/SaiSai-me/gentle-break-reminder/issues)
 - 安全问题：[安全政策](./SECURITY.md)

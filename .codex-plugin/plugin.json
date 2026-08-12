@@ -1,6 +1,6 @@
 {
   "name": "gentle-break-reminder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Private, activity-aware break reminders inside Codex conversations, powered by a deterministic local hook.",
   "author": {
     "name": "tanzengsai",

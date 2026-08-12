@@ -1,216 +1,125 @@
 # Gentle Break Reminder
 
-![Gentle Break Reminder 图标](./assets/icon.png)
+<p align="center">
+  <img src="./assets/icon.png" alt="Gentle Break Reminder 图标" height="240">
+  <img src="./assets/reminder-preview.png" alt="Gentle Break Reminder 提醒效果" height="240">
+</p>
 
-[![Version](https://img.shields.io/badge/version-0.1.2-71C2FF)](https://github.com/SaiSai-me/gentle-break-reminder/releases/tag/v0.1.2)
+[![Version](https://img.shields.io/badge/version-0.1.3-71C2FF)](https://github.com/SaiSai-me/gentle-break-reminder/releases/tag/v0.1.3)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 
-**把休息提醒放进 Agent 对话流里。**
+一个运行在 Codex 对话里的本地休息提醒插件。
 
-Gentle Break Reminder 是一个面向 Codex 的本地插件。它通过 `UserPromptSubmit` Hook 感知用户与 Agent 的交互节奏，根据持续活跃度和短时间对话强度，在合适的时机给出低打扰的休息提醒。
+它根据你提交消息的时间和次数，识别“持续协作”或“短时间高强度对话”，然后在合适的时候提醒你喝水、护眼、伸展或休息。它不是固定闹钟，也不会读取或分析你说了什么。
 
-它不是固定闹钟，也不限于提醒喝水。提醒内容、触发频率、每日上限和投递方式都可以用自然语言修改。
+> 💧 喝口水、看看远处，活动一下肩颈，再轻松继续吧。
 
-> ⏸️ 轻轻休息一下：喝口水、看看远处或活动肩颈，再舒服地继续吧。
+## 1. 这是什么
 
-## English overview
+- **跟随对话提醒**：只在你向 Codex 提交消息时检查是否需要提醒。
+- **本地运行**：不需要账号、API Key、云服务或额外模型调用。
+- **可以自由配置**：提醒文字、触发频率、冷却时间、每日上限和通知方式都能修改。
+- **不读取对话内容**：只保存哈希后的任务标识、时间戳和计数，不保存提示词或 Agent 回复。
 
-Gentle Break Reminder is a privacy-conscious Codex plugin that turns local prompt-submit timing and message counts into low-interruption break reminders. It supports sustained-activity and conversation-burst rules, cooldowns, daily limits, customizable reminder text, one-shot Codex system messages, and optional macOS desktop notifications. It requires no account, cloud service, API key, or external network request.
+适用于 ChatGPT/Codex 桌面应用和 Codex CLI；需要本机能够执行 `python3`。
 
-## 核心特点
+## 2. 怎么安装和开始使用
 
-- **对话流内部触发**：提醒跟随 Codex 交互发生，不需要额外打开计时器应用。
-- **双重活跃度判断**：同时识别长时间持续交互和短时间高强度对话。
-- **低打扰**：冷却时间、每日上限和空闲重置共同抑制重复提醒。
-- **自由定制**：提醒内容可以是喝水、护眼、拉伸、站立、呼吸或任何自定义提示。
-- **隐私优先**：不分析或保存提示词正文，不读取 Agent 回复，不打开对话 transcript，也不访问项目文件。
-- **极简配置**：安装后即可运行，也可以直接用自然语言调整设置。
-
-## Hook 如何工作
-
-每当用户向 Codex 提交一条消息，`UserPromptSubmit` Hook 会记录一次本地活动事件：
-
-```text
-用户提交消息
-    ↓
-Hook 记录哈希会话 ID、时间和次数
-    ↓
-判断持续活跃度或对话强度
-    ↓
-检查冷却时间与每日上限
-    ↓
-在当前对话或桌面通知中显示自定义提醒
-```
-
-运行时判断由本地 Python 规则引擎完成，不需要调用额外的语言模型。
-
-Codex 会把完整的 `UserPromptSubmit` 事件 JSON 交给 Hook。适配器会在本地反序列化这个事件，但后续逻辑只访问事件类型和会话标识，并以本机收到事件的时间进行计数；它不查询、分析、记录或持久化 `prompt` 字段，也不会打开 `transcript_path` 指向的文件。因为事件需要先反序列化，如果载荷中包含提示词正文，正文可能短暂存在于 Hook 进程内存中，进程结束后即被丢弃。
-
-## 默认触发规则
-
-满足任意一组条件即可进入提醒判断：
-
-| 规则 | 默认条件 | 用途 |
-| --- | --- | --- |
-| 持续活跃 | 约 45 分钟，并且至少提交 5 条消息 | 识别长时间连续协作 |
-| 对话强度 | 30 分钟内提交 10 条消息 | 识别短时间高密度协作 |
-
-默认防打扰限制：
-
-- 两次提醒至少间隔 60 分钟；
-- 每天最多提醒 3 次；
-- 空闲达到 20 分钟后重新计算当前活跃段；
-- 只有不超过 15 分钟的相邻交互间隔才计入估算活跃时长。
-
-插件不是后台计时器。它只在用户再次提交消息时检查规则，因此不会保证在第 45 分钟整点弹出提醒。
-
-## 安装到 Codex
-
-### 推荐：直接从 GitHub Marketplace 安装
-
-不需要先下载 ZIP。打开终端，依次运行：
+**推荐方式：用 Codex CLI 从 GitHub Marketplace 安装。不需要下载 ZIP。**
 
 ```bash
 codex plugin marketplace add SaiSai-me/gentle-break-reminder
 codex plugin add gentle-break-reminder@saisai-plugins
 ```
 
-然后完全退出并重新打开 ChatGPT/Codex 桌面应用，新建一个 Codex 任务。在输入框键入 `@`，选择 **Gentle Break Reminder**，发送：
+安装后：
 
-```text
-查看我的休息提醒设置
+1. 完全退出并重新打开 ChatGPT/Codex；
+2. 新建一个 Codex 任务；
+3. 在输入框键入 `@`，选择 **Gentle Break Reminder**；
+4. 发送“查看我的休息提醒设置”。
+
+插件安装后默认开启，不需要先做其他配置。
+
+### ZIP、CLI 和插件市场是什么关系？
+
+- **CLI + GitHub Marketplace**：推荐安装方式。上面的两条命令会完成安装。
+- **桌面插件页**：添加 Marketplace 后，也可以在 Plugins → **SaiSai Plugins** 中安装。
+- **ZIP**：主要用于查看或审计源码，不能双击安装；只有无法使用 CLI 时，才需要下载并解压仓库，再把该文件夹作为 Codex 项目打开，从 Plugins 页面安装。
+
+更新插件：
+
+```bash
+codex plugin marketplace upgrade saisai-plugins
+codex plugin add gentle-break-reminder@saisai-plugins
 ```
 
-也可以在 Codex CLI 中输入 `/plugins`，切换到 **SaiSai Plugins** 后安装。
+更新后同样需要重新打开应用并新建任务。更详细的安装、卸载和故障排查见[安装指南](./docs/INSTALLATION.md)。
 
-> 重要：安装完成后必须新建任务或 CLI 会话。安装前已经打开的旧任务不会自动加载新的技能和 Hook。
+## 3. 怎么直接配置
 
-### 已经从 GitHub 下载 ZIP
-
-ZIP 不能通过双击直接安装。最简单的方式仍然是执行上面的两条 Marketplace 命令；ZIP 可以用于查看和审计源码。
-
-如果只有桌面应用而没有可用的 `codex` 命令，请下载仓库 `main` 分支的 ZIP，将解压目录作为 Codex 项目打开，重新启动桌面应用，然后在 Plugins → **SaiSai Plugins** 中安装。
-
-完整的分步说明，包括环境检查、ZIP 安装、验证、更新、卸载及故障排查，请阅读：
-
-**[安装与使用指南](./docs/INSTALLATION.md)**
-
-插件需要支持插件 Hooks 的 Codex 环境和可执行的 `python3` 命令。目前不能在 Codex IDE 扩展中浏览或安装插件。
-
-## 快速使用
-
-安装并启用插件后，新建一个 Codex 任务。默认提醒已开启，无需额外配置。
-
-直接告诉 Codex 你想怎样调整：
+在新任务中选择 `@Gentle Break Reminder`，直接用自然语言告诉 Codex：
 
 ```text
 查看我的休息提醒设置
 
-把提醒语改成“站起来走两分钟，再回来继续。”
+把提醒语改成“喝几口水，看看远处，再继续吧。”
 
-连续活跃 50 分钟、至少 6 条消息后再提醒我
+连续活跃 50 分钟、至少 6 条消息后提醒我
 
-把对话强度规则改成 30 分钟内 12 条消息
+30 分钟内发送 12 条消息时提醒我
 
 两次提醒至少间隔 90 分钟，每天最多提醒 2 次
 
-把提醒通道切换为桌面通知
+把提醒切换为 macOS 桌面通知
 
-关闭休息提醒
+测试一下提醒，但不要发送桌面通知
+
+关闭提醒
 ```
 
-也可以调用 `$configure-break-reminders` 明确进入配置流程。
+也可以明确调用配置技能：
 
-## 可以自定义什么
+```text
+$configure-break-reminders 查看我的设置
+```
 
-| 设置 | 作用 |
+默认设置：
+
+| 设置 | 默认值 |
 | --- | --- |
-| 提醒内容 | 自定义不超过 240 个字符的单行提示 |
-| 持续活跃阈值 | 调整活跃分钟数和最低消息数 |
-| 对话强度阈值 | 调整统计窗口和窗口内消息数 |
-| 连续性与空闲重置 | 控制哪些相邻交互计入同一活跃段 |
-| 冷却时间 | 控制两次提醒之间的最短间隔 |
-| 每日上限 | 控制一天最多提醒几次 |
-| 投递方式 | 选择 Codex 内系统消息或 macOS 桌面通知 |
+| 持续协作 | 约 45 分钟，并且至少 5 条消息 |
+| 高强度对话 | 30 分钟内 10 条消息 |
+| 提醒冷却 | 60 分钟 |
+| 每日上限 | 3 次 |
+| 空闲重置 | 20 分钟无活动后重新计算 |
+| 提醒位置 | 当前 Codex 对话中的系统消息 |
 
-所有配置都保存在本地。关闭插件会清空当前活跃状态，但保留其他设置；恢复默认配置时可以同时清空状态。
+macOS 可以选择桌面通知；发送失败时会回退到 Codex 对话。Windows 和 Linux 使用默认的对话内提醒。
 
-## 提醒方式
+## 4. 背后的逻辑
 
-### Codex 内系统消息
+每次你提交消息时，插件都会在本地执行一次简单判断：
 
-默认方式。提醒以一次性系统消息显示在当前对话中，不要求模型重新生成提醒内容，也不会把固定提醒指令持续注入后续上下文。
-
-### macOS 桌面通知
-
-可选方式。插件通过本地 `osascript` 发送系统通知；发送失败时自动回退为 Codex 内系统消息。
-
-桌面通知目前只支持 macOS。插件不会在用户没有明确要求时主动切换到桌面通知或投递测试通知。
-
-## 隐私设计
-
-插件在本地保存：
-
-- 截短后的 SHA-256 会话标识；
-- 消息提交时间戳和计数；
-- 估算的活跃时长；
-- 上次提醒时间和当天提醒次数；
-- 用户主动修改的配置。
-
-插件不会分析、返回、传输或持久化：
-
-- 用户提示词正文；
-- Agent 回复正文；
-- 对话 transcript 内容或路径（插件不会打开 transcript 文件）；
-- 项目代码、文件内容或文件名；
-- 键盘、鼠标、摄像头或屏幕内容；
-- 对情绪、疲劳、健康或饮水状态的语义推断；
-- 原始会话 ID。
-
-活动数据不会发送到外部服务。超过 7 天没有活动的会话状态会自动清理。
-
-默认数据目录：
-
-- macOS：`~/Library/Application Support/gentle-break-reminder`
-- Windows：`%LOCALAPPDATA%/gentle-break-reminder`
-- Linux：`$XDG_STATE_HOME/gentle-break-reminder`，未设置时使用 `~/.local/state/gentle-break-reminder`
-
-哈希化是数据最小化措施，不等同于完全匿名化。本地状态仍应被视为私人数据。
-
-完整披露请参阅[隐私政策](./PRIVACY.md)。使用插件即表示你同意[服务条款](./TERMS.md)。
-
-## 设计边界
-
-Gentle Break Reminder 只能根据消息事件的时间和次数估算交互节奏。它不能测量真实屏幕使用时间、打字时间、工作时长、疲劳程度或身体状态，也不能替代医学或健康建议。
-
-插件的目标不是“猜出你累了”，而是在透明、可控、低频的规则下，为持续的人机协作提供一个自然的暂停点。
-
-## 兼容性
-
-- 需要支持插件 Hook 的 Codex 环境；
-- 本地运行需要可通过 `python3` 命令执行的 Python 3；
-- 支持 Codex 内系统消息；
-- 支持 macOS 桌面通知；
-- Windows 和 Linux 可继续使用 Codex 内系统消息；
-- 插件目前不能通过 Codex IDE 扩展安装；请使用 ChatGPT/Codex 桌面应用或 Codex CLI；
-- 不需要外部账号、云服务或 API Key。
-
-## 开发与验证
-
-运行测试：
-
-```bash
-python3 -m unittest discover -s tests -v
+```text
+提交消息
+  → 记录哈希任务 ID、时间和次数
+  → 检查持续协作或高强度对话规则
+  → 检查冷却时间和每日上限
+  → 满足条件时显示提醒
 ```
 
-当前测试覆盖持续活跃、对话强度、冷却、每日上限、空闲重置、跨任务全局限制、自定义提醒、状态迁移、隐私约束和通知回退。
+满足以下任一规则，就进入提醒判断：
 
-## 发布与支持
+1. **持续协作**：累计活跃时间和消息数都达到设定值；
+2. **高强度对话**：指定时间窗口内的消息数达到设定值。
 
-- 安装、更新和卸载：[安装与使用指南](./docs/INSTALLATION.md)
-- 最新版本与安装包：[GitHub Releases](https://github.com/SaiSai-me/gentle-break-reminder/releases)
-- 问题与功能建议：[GitHub Issues](https://github.com/SaiSai-me/gentle-break-reminder/issues)
-- 安全问题：[安全政策](./SECURITY.md)
-- 参与贡献：[贡献指南](./CONTRIBUTING.md)
+插件不是后台计时器，所以不会在第 45 分钟整点主动弹出。它会在你下一次提交消息时检查条件。
 
-公开 Codex 插件目录版本需要通过 OpenAI 审核；GitHub Release 是可审计的源代码发布渠道，不代表 OpenAI 已审核或认可本插件。
+为了减少打扰，它还会应用冷却时间、每日上限和空闲重置。它只能估算对话节奏，不能测量真实工作时长、屏幕时间、疲劳程度或饮水状态。
+
+插件不会分析、保存或发送提示词和 Agent 回复，不会打开对话 transcript，也不会访问项目文件。完整的数据说明见[隐私政策](./PRIVACY.md)。
+
+---
+
+[最新版本](https://github.com/SaiSai-me/gentle-break-reminder/releases) · [问题反馈](https://github.com/SaiSai-me/gentle-break-reminder/issues) · [MIT License](./LICENSE)
